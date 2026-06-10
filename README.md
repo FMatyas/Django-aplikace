@@ -7,7 +7,7 @@ Jednoducha webova aplikace v Django pro spravu fotbalovych klubu, soupisek hracu
 ### Klonovani repozitare
 ```bash
 git clone [https://github.com/Sacinskyy/Django-aplikace.git](https://github.com/Sacinskyy/Django-aplikace.git)
-
+exit
 python -m venv venv
 
 .venv\Scripts\activate
