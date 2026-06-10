@@ -1,0 +1,41 @@
+{% extends 'turnaj/base.html' %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{% url 'seznam_tymu' %}" class="text-secondary small text-decoration-none">&larr; Zpět na seznam týmů</a>
+</div>
+
+<div class="main-card shadow-sm p-4 mb-5">
+    <div class="border-bottom pb-3 mb-4">
+        <span class="text-uppercase text-secondary small fw-bold tracking-wider">Profil fotbalového klubu</span>
+        <h1 class="display-6 fw-bold text-dark m-0 mt-1">{{ tym.jmeno_tymu }}</h1>
+    </div>
+
+    <h2 class="h5 fw-bold text-dark mb-3">Aktuální ligová soupiska ({% with h=tym.hraci.all|length %}{{ h }}{% endwith %} hráčů)</h2>
+    
+    <div class="table-responsive">
+        <table class="table table-custom table-hover m-0">
+            <thead>
+                <tr class="border-bottom">
+                    <th scope="col" class="ps-3" style="width: 10%;">Číslo</th>
+                    <th scope="col">Jméno a příjmení hráče</th>
+                    <th scope="col" class="text-end pe-3">Pozice</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hrac in tym.hraci.all %}
+                <tr class="align-middle">
+                    <td class="ps-3 text-secondary small">#{{ forloop.counter }}</td>
+                    <td class="fw-semibold text-dark">{{ hrac.jmeno }} {{ hrac.prijmeni }}</td>
+                    <td class="text-end pe-3 text-secondary small">Hráč v poli</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted py-4">Na soupisce tohoto týmu zatím nejsou žádní hráči.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

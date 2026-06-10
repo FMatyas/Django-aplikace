@@ -1,0 +1,70 @@
+{% extends 'turnaj/base.html' %}
+
+{% block content %}
+<div class="main-card shadow-sm p-4 mb-5">
+    <div class="mb-4">
+        <h1 class="h3 fw-bold text-dark m-0">Přehled turnajových zápasů</h1>
+        <p class="text-muted small m-0 mt-1">Ligový harmonogram s rozdělením střelců podle týmové příslušnosti.</p>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-custom m-0">
+            <thead>
+                <tr class="border-bottom">
+                    <th scope="col" class="ps-3" style="width: 38%;">Domácí tým</th>
+                    <th scope="col" class="text-center" style="width: 24%;">Výsledek / Stav</th>
+                    <th scope="col" class="text-end pe-3" style="width: 38%;">Hostující tým</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for zapas in zapasy %}
+                <tr class="align-top border-bottom">
+                    
+                    <td class="ps-3 py-3">
+                        <div class="fw-bold text-dark fs-5">{{ zapas.id_domaci_tym.jmeno_tymu }}</div>
+                        {% if zapas.domaci_goly >= 0 %}
+                            <div class="small text-secondary mt-2">
+                                {% for střelec in zapas.strelci.all %}
+                                    {% if střelec.id_hrac.id_tym_id == zapas.id_domaci_tym.id %}
+                                        <div class="text-muted">• {{ střelec.id_hrac.jmeno }} {{ střelec.id_hrac.prijmeni }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </td>
+                    
+                    <td class="text-center py-3">
+                        {% if zapas.domaci_goly >= 0 and zapas.hostujici_goly >= 0 %}
+                            <span class="score-display">{{ zapas.domaci_goly }} : {{ zapas.hostujici_goly }}</span>
+                            <div class="mt-1 mb-2"><span class="status-badge badge-completed">Odehráno</span></div>
+                        {% else %}
+                            <span class="score-display text-muted fw-normal">vs</span>
+                            <div class="mt-1 mb-2"><span class="status-badge badge-upcoming">Plánováno</span></div>
+                        {% endif %}
+                        <div class="text-secondary" style="font-size: 0.75rem;">{{ zapas.datum_zapasu|date:"d. m. Y" }}</div>
+                    </td>
+                    
+                    <td class="text-end pe-3 py-3">
+                        <div class="fw-bold text-dark fs-5">{{ zapas.id_hostujici_tym.jmeno_tymu }}</div>
+                        {% if zapas.hostujici_goly >= 0 %}
+                            <div class="small text-secondary mt-2">
+                                {% for střelec in zapas.strelci.all %}
+                                    {% if střelec.id_hrac.id_tym_id == zapas.id_hostujici_tym.id %}
+                                        <div class="text-muted">{{ střelec.id_hrac.jmeno }} {{ střelec.id_hrac.prijmeni }} •</div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted py-4">Nebyly nalezeny žádné zápasy.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

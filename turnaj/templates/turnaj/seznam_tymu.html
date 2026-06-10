@@ -1,0 +1,41 @@
+{% extends 'turnaj/base.html' %}
+
+{% block content %}
+<div class="main-card shadow-sm p-4 mb-5">
+    <div class="mb-4">
+        <h1 class="h3 fw-bold text-dark m-0">Registrované kluby</h1>
+        <p class="text-muted small m-0 mt-1">Kliknutím na název týmu zobrazíte jeho detailní profil a kompletní soupisku hráčů.</p>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-custom table-hover m-0">
+            <thead>
+                <tr class="border-bottom">
+                    <th scope="col" class="ps-3" style="width: 15%;">ID klubu</th>
+                    <th scope="col">Název fotbalového klubu</th>
+                    <th scope="col" class="text-end pe-3">Status působení</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tym in tymy %}
+                <tr class="align-middle">
+                    <td class="ps-3 text-secondary small">#{{ tym.id }}</td>
+                    <td>
+                        <a href="{% url 'detail_tymu' tym.id %}" class="fw-bold text-primary text-decoration-none">
+                            {{ tym.jmeno_tymu }}
+                        </a>
+                    </td>
+                    <td class="text-end pe-3">
+                        <span class="status-badge badge-completed">Aktivní v lize</span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted py-4">Nebyly nalezeny žádné registrované týmy.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
